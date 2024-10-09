@@ -8,11 +8,22 @@ const MangaRouter = (app: Hono) => {
         const pageParam = c.req.query('page');
         const pages = pageParam ? Number(pageParam) : 1;
 
-        const mangaList = await newManga.getAllManga(pages);
-        if (!c.res.ok) return c.json({ message: "Page not found" })
-        return c.json(mangaList);
+        try {
+            const mangaList = await newManga.getAllManga(pages);
+            return c.json(mangaList);
+        } catch (error) {
+            return c.json({ message: "Error fetching manga", error: error }, 500);
+        }
     });
 
+    app.get('/most-populars', async (c) => {
+        try {
+            const mangaList = await newManga.mostPopulars();
+            return c.json(mangaList);
+        } catch (error) {
+            return c.json({ message: "Error fetching popular manga", error: error }, 500);
+        }
+    })
 }
 
 export default MangaRouter;

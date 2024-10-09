@@ -4,7 +4,7 @@ Welcome to the Earth project! This project provides a simple API for retrieving 
 
 ## API Endpoints
 
-### Get All Manga
+### Manga
 
 - **Endpoint**: `/all-manga`
 - **Method**: `GET`
@@ -12,3 +12,10 @@ Welcome to the Earth project! This project provides a simple API for retrieving 
 - **Example** :
 `GET http://localhost:3000/all-manga`
 `GET http://localhost:3000/all-manga?page=${number}`
+
+
+- **Endpoint**: `/most-populars`
+- **Method**: `GET`
+- **Description**: Retrieve a list of all with most views manga.
+- **Example** :
+`GET http://localhost:3000/most-populars`

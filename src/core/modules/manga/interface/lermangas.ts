@@ -1,10 +1,11 @@
+
 export default interface lerMangasInterface {
-    title: string;
+    title: string | undefined;
     link: string | undefined;
     imageUrl: string | undefined;
-    rating: string;
+    rating: string | undefined;
     chapters: {
         title: string;
-        link: string | undefined;
+        link: string;
     }[];
 }
