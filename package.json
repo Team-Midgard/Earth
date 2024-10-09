@@ -5,6 +5,8 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.1",
+    "@types/cheerio": "^0.22.35",
+    "cheerio": "^1.0.0",
     "hono": "^4.6.3",
     "reflect-metadata": "^0.2.2",
     "sqlite3": "^5.1.7",
