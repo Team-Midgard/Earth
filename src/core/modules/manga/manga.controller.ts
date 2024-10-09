@@ -1,4 +1,5 @@
-import GetManga from "./use-cases/get-mangas"; // Certifique-se de importar corretamente
+import lerMangasInterface from "./interface/lermangas";
+import GetManga from "./use-cases/get-mangas";
 
 export default class MangaController {
     private getManga: GetManga;
@@ -7,7 +8,7 @@ export default class MangaController {
         this.getManga = new GetManga();
     }
 
-    async getAllManga() {
-        return await this.getManga.getMangas();
+    async getAllManga(pages: number = 1) {
+        return await this.getManga.getMangas(pages);
     }
 }

@@ -1,23 +1,36 @@
 import Config from "../../../../common/config/app.config";
-import { extractNextData } from "../mapper/extract-data";
+import lerMangasInterface from "../interface/lermangas";
+import { load } from "cheerio";
 
-const url = Config.api.url
+const url = Config.api.url;
 
 export default class GetManga {
     constructor() { }
 
-    async getMangas() {
-        try {
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const html = await response.text();
-            const extractedData = extractNextData(html);
-            return extractedData;
-        } catch (error) {
-            console.error('Erro ao obter mangas:', error);
-            throw error;
-        }
+    async getMangas(pages: number): Promise<lerMangasInterface[]> {
+        if (pages <= 0) throw new Error("Navegação inválida");
+        const pagesUrl = pages === 1 ? url : `${url}/page/${pages}`;
+        const response = await fetch(pagesUrl);
+
+        const $ = load(await response.text());
+        const data: lerMangasInterface[] = [];
+
+        $('.page-item-detail.manga').each((index, element) => {
+            const title = $(element).find('.post-title a').text().trim();
+            const link = $(element).find('.item-thumb a').attr('href');
+            const imageUrl = $(element).find('.item-thumb img').attr('src');
+            const rating = $(element).find('.score').text().trim();
+
+            const chapters: { title: string; link: string }[] = [];
+            $(element).find('.list-chapter .chapter-item').each((_, chapterElement) => {
+                const chapterTitle = $(chapterElement).find('.chapter a').text().trim();
+                const chapterLink = $(chapterElement).find('.chapter a').attr('href') ?? '';
+                chapters.push({ title: chapterTitle, link: chapterLink });
+            });
+
+            data.push({ title, link, imageUrl, rating, chapters });
+        });
+
+        return data;
     }
 }

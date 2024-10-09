@@ -1,8 +1,10 @@
+import ChoiceProvider from "../../core/modules/manga/service/choise-provider"
+
 const Config = {
     port: Number(process.env.PORT) || 3000,
     database: {},
     api: {
-        url: "https://slimeread.com/"
+        url: ChoiceProvider(1)
     }
 }
 
